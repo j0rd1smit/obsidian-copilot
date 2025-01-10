@@ -31,7 +31,7 @@ import {
     ollamaApiSettingsSchema,
 } from "../shared";
 import {z} from "zod";
-import {azureOAIApiSettingsSchema, fewShotExampleSchema, modelOptionsSchema, openAIApiSettingsSchema} from "../shared";
+import {geminiApiSettingsSchema, azureOAIApiSettingsSchema, fewShotExampleSchema, modelOptionsSchema, openAIApiSettingsSchema} from "../shared";
 import {isRegexValid, isValidIgnorePattern} from "../../utils";
 
 export const triggerSchema = z.object({
@@ -61,8 +61,9 @@ export const settingsSchema = z.object({
     version: z.literal("1"),
     enabled: z.boolean(),
     advancedMode: z.boolean(),
-    apiProvider: z.enum(['azure', 'openai', "ollama"]),
+    apiProvider: z.enum(['azure', 'openai', "ollama", "gemini"]),
     azureOAIApiSettings: azureOAIApiSettingsSchema,
+    geminiApiSettings: geminiApiSettingsSchema,
     openAIApiSettings: openAIApiSettingsSchema,
     ollamaApiSettings: ollamaApiSettingsSchema,
     triggers: z.array(triggerSchema),
@@ -113,6 +114,11 @@ export const DEFAULT_SETTINGS: Settings = {
     azureOAIApiSettings: {
         key: "",
         url: "https://YOUR_AOI_SERVICE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/chat/completions",
+    },
+    geminiApiSettings: {
+        key: "",
+        url: "https://generativelanguage.googleapis.com/v1beta/models",
+        model: 'gemini-1.5-flash'
     },
     openAIApiSettings: {
         key: "",

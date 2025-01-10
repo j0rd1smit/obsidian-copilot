@@ -21,6 +21,12 @@ export const azureOAIApiSettingsSchema = z.object({
     url: z.string().url().or(z.string().max(0)),
 }).strict();
 
+export const geminiApiSettingsSchema = z.object({
+    key: z.string(),
+    url: z.string().url().or(z.string().max(0)),
+    model: z.string(),
+}).strict()
+
 export const openAIApiSettingsSchema = z.object({
     key: z.string(),
     url: z.string().url(),

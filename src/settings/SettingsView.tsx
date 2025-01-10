@@ -77,6 +77,61 @@ export default function SettingsView(props: IProps): React.JSX.Element {
 
 
     const renderAPISettings = () => {
+        if (settings.apiProvider === "gemini") {
+            return (
+                <>
+                    <TextSettingItem
+                        name={"API URL"}
+                        description={
+                            "The URL used in the requests."
+                        }
+                        placeholder={"Your API URL..."}
+                        value={settings.geminiApiSettings.url}
+                        errorMessage={errors.get("geminiApiSettings.url")}
+                        setValue={(value: string) =>
+                            updateSettings({
+                                geminiApiSettings: {
+                                    ...settings.geminiApiSettings,
+                                    url: value,
+                                },
+                            })
+                        }
+                    />
+                    <TextSettingItem
+                        name={"API key"}
+                        description={"The API key used in the requests."}
+                        placeholder={"Your API key..."}
+                        password
+                        value={settings.geminiApiSettings.key}
+                        errorMessage={errors.get("geminiApiSettings.key")}
+                        setValue={(value: string) =>
+                            updateSettings({
+                                geminiApiSettings: {
+                                    ...settings.geminiApiSettings,
+                                    key: value,
+                                },
+                            })
+                        }
+                    />
+                    <TextSettingItem 
+                        name={"Model"}
+                        description={"The value of the model parameter in the request body."}
+                        placeholder="gemini-1.5-flash"
+                        value={settings.geminiApiSettings.model}
+                        errorMessage={errors.get("geminiApiSettings.model")}
+                        setValue={(value: string) =>
+                            updateSettings({
+                                geminiApiSettings: {
+                                    ...settings.geminiApiSettings,
+                                    model: value,
+                                }
+                            })
+                        }
+                    />
+                    <ConnectivityCheck key={"gemini"} settings={settings}/>
+                </>
+            );
+        }
         if (settings.apiProvider === "azure") {
             return (
                 <>
@@ -243,14 +298,15 @@ export default function SettingsView(props: IProps): React.JSX.Element {
                 }
                 value={settings.apiProvider}
                 setValue={(value: string) => {
-                    if (value === "openai" || value === "azure" || value === "ollama") {
+                    if (value === "openai" || value === "azure" || value === "ollama" || value === "gemini") {
                         updateSettings({apiProvider: value});
                     }
                 }}
                 options={{
                     openai: "OpenAI API",
                     azure: "Azure OAI API",
-                    ollama: "Self-hosted OLLAMA API"
+                    ollama: "Self-hosted OLLAMA API",
+                    gemini: "Gemini"
                 }}
                 errorMessage={errors.get("apiProvider")}
             />

@@ -17,6 +17,7 @@ import DataViewRemover from "../pre_processors/data_view_remover";
 import LengthLimiter from "../pre_processors/length_limiter";
 import OpenAIApiClient from "../api_clients/OpenAIApiClient";
 import AzureOAIClient from "../api_clients/AzureOAIClient";
+import GeminiApiClient from "../api_clients/GeminiAPIClient";
 import RemoveOverlap from "../post_processors/remove_overlap";
 import {FewShotExample, Settings} from "../../settings/versions";
 import RemoveWhitespace from "../post_processors/remove_whitespace";
@@ -88,6 +89,8 @@ class ChatGPTWithReasoning implements PredictionService {
             client = AzureOAIClient.fromSettings(settings);
         } else if (settings.apiProvider === "ollama") {
             client = OllamaApiClient.fromSettings(settings);
+        } else if (settings.apiProvider === "gemini") {
+            client = GeminiApiClient.fromSettings(settings);
         } else {
             throw new Error("Invalid API provider");
         }
